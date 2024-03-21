@@ -3,7 +3,7 @@ import traceback
 from pathlib import Path
 from typing import Union
 from xml.dom import minidom
-
+from urllib import parse
 from requests import RequestException
 
 from app.core.config import settings
@@ -366,6 +366,7 @@ class TmdbScraper:
                     self.__save_remove_file(file_path, r.content)
                 else:
                     file_path.write_bytes(r.content)
+                self._set_cache_for_save_img(url,file_path)
                 logger.info(f"图片已保存：{file_path}")
             else:
                 logger.info(f"{file_path.stem}图片下载失败，请检查网络连通性")
@@ -373,6 +374,21 @@ class TmdbScraper:
             raise err
         except Exception as err:
             logger.error(f"{file_path.stem}图片下载失败：{str(err)}")
+
+    def _set_cache_for_save_img(self, url: str, file_path: Path):
+
+        parsed_url = urllib.parse.urlsplit(url)
+        content = parsed_url.path
+        # file_path 下 已经存储了 content图片
+        return 
+
+    def _has_save_img(self, url: str, file_path: Path):
+        return false;
+
+    def __update_image(self, url: str, file_path: Path):
+        if not self._has_save_img(url,file_path):
+            return
+        
 
     def __save_nfo(self, doc, file_path: Path):
         """
